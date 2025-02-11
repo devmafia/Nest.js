@@ -1,0 +1,139 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResponse {
+  message: String!
+  token: String!
+  userId: Int
+}
+
+type Event {
+  id: ID!
+  title: String!
+  date: DateTime!
+  category: String!
+  description: String!
+  price: String!
+  place: String!
+  availableSeats: Int!
+  image: String!
+  seats: [Seat!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserEvent {
+  id: ID
+  username: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
+type Seat {
+  id: ID!
+  seatNumber: String!
+  isBooked: Boolean!
+  event: Event!
+  eventId: Float!
+}
+
+type Booking {
+  id: ID!
+  guestName: String!
+  guestEmail: String!
+  phone: String!
+  totalPrice: Int!
+  user: UserEvent
+  events: [Event!]
+  seats: [Seat!]
+}
+
+type UserResponse {
+  user: UserEvent
+}
+
+type BookingDto {
+  id: Int!
+  userId: Int!
+  guestName: String!
+  guestEmail: String!
+  phone: String!
+  totalPrice: Float!
+  events: [Event!]!
+  seats: [Seat!]!
+}
+
+type Query {
+  hello: String!
+  getUserdata(userId: Int!): UserResponse!
+  getAllEvents: [Event!]!
+  getEvent(id: Int!): Event!
+  getBookings(userId: Float): [BookingDto!]!
+}
+
+type Mutation {
+  register(input: RegisterInput!): AuthResponse!
+  login(input: LoginInput!): AuthResponse!
+  logout: AuthResponse!
+  updateUsername(variables: UpdateUsernameInput!): UserResponse!
+  updateEmail(variables: UpdateEmailInput!): UserResponse!
+  updatePassword(variables: UpdatePasswordInput!): Boolean!
+  deleteUser(variables: DeleteUserDto!): Boolean!
+  deleteEvent(id: ID!): Boolean!
+  createBooking(input: CreateBookingDto!): BookingDto!
+  deleteBooking(variables: DeleteBookingDto!): Boolean!
+}
+
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUsernameInput {
+  id: Int!
+  username: String!
+}
+
+input UpdateEmailInput {
+  id: Int!
+  email: String!
+}
+
+input UpdatePasswordInput {
+  id: Int!
+  password: String!
+}
+
+input DeleteUserDto {
+  userId: Float!
+}
+
+input CreateBookingDto {
+  userId: Int!
+  guestName: String!
+  guestEmail: String!
+  phone: String!
+  events: [EventBookingInput!]!
+}
+
+input EventBookingInput {
+  eventId: Int!
+  seats: [Int!]!
+  quantity: Int!
+}
+
+input DeleteBookingDto {
+  bookingId: Float!
+}
